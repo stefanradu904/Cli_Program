@@ -1,37 +1,43 @@
-require 'spec_helper'
+# frozen_string_literal: true
+
 require './cli'
 
 RSpec.describe Cli do
   describe '.run' do
-    subject(:cmd) { Cli.run(argv) }
+    subject(:run) { Cli.run(argv) }
 
-    context 'cmd: unknown' do
+    context 'with cmd: unknown' do
       let(:argv) { %w[unknown] }
 
-      it "returns a help command" do
-        result = cmd
+      it 'returns a help command' do
+        result = run
         expect(result).to be_an_instance_of(CliHelpCommand)
-        expect(result.info).to include("CLI Program supported commands:")
+        expect(result.info).to include('CLI Program supported commands:')
       end
     end
 
-    context 'cmd: show + attribute' do
-      let(:argv) { %w[show httparty] }
+    context 'with cmd: show' do
+      let(:cmd) { 'show' }
 
-      it "returns a show command" do
-        result = cmd
-        expect(result).to be_an_instance_of(ShowCommand)
-        expect(result.gem_name).to eq "httparty"
-        expect(result.gem_info).to eq "Makes http fun! Also, makes consuming restful web services dead easy."
+      context 'when parameter [gem_name] is given' do
+        let(:argv) { [cmd, 'httparty'] }
+
+        it 'returns a show command' do
+          result = run
+          expect(result).to be_an_instance_of(ShowCommand)
+          expect(result.gem_name).to eq 'httparty'
+          expect(result.gem_info).to eq 'Makes http fun! Also, makes consuming restful web services dead easy.'
+        end
       end
-    end
 
-    context 'cmd: show + no attribute' do
-      let(:argv) { %w[show] }
-      it "returns a help show command" do
-        result = cmd
-        expect(result).to be_an_instance_of(ShowHelpCommand)
-        expect(result.info).to include("Show command format:")
+      context 'when parameter [gem_name] is NOT given' do
+        let(:argv) { [cmd] }
+
+        it 'returns a help show command' do
+          result = run
+          expect(result).to be_an_instance_of(ShowHelpCommand)
+          expect(result.info).to include('Show command format:')
+        end
       end
     end
   end

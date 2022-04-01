@@ -1,9 +1,10 @@
-class Arguments
-  attr_reader :cmd
-  attr_reader :attribute
+# frozen_string_literal: true
 
-  def initialize(cmd, attribute)
+class Arguments
+  attr_reader :cmd, :parameter
+
+  def initialize(cmd, parameter)
     @cmd = cmd
-    @attribute = attribute
+    @parameter = parameter
   end
 end
