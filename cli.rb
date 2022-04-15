@@ -3,6 +3,7 @@
 require './lib/arguments'
 require './lib/build_show_command'
 require './lib/cli_help_command'
+require './lib/build_search_command'
 
 class Cli
   class << self
@@ -11,6 +12,8 @@ class Cli
       case arguments.cmd
       when 'show'
         BuildShowCommand.build(arguments.parameter)
+      when 'search'
+        BuildSearchCommand.build(arguments.parameter)
       else
         CliHelpCommand.new
       end

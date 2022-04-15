@@ -8,7 +8,11 @@ class RubyGemsApi
 
   class << self
     def get_gem_info(gem_name)
-      get("/api/v1/gems/#{gem_name}.json").parsed_response['info']
+      get("/api/v1/gems/#{gem_name}.json").parsed_response
+    end
+
+    def get_search_results(gem_name)
+      get("/api/v1/search.json?query=#{gem_name}").parsed_response
     end
   end
 end
